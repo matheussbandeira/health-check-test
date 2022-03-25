@@ -53,15 +53,15 @@ namespace HealthTest
         {
             var output = "";
 
-            var info = new ProcessStartInfo("free -m");
+            var info = new ProcessStartInfo();
             info.FileName = "/bin/bash";
             info.Arguments = "-c \"free -m\"";
             info.RedirectStandardOutput = true;
+            info.UseShellExecute = false;
 
             using (var process = Process.Start(info))
             {
                 output = process.StandardOutput.ReadToEnd();
-                Console.WriteLine(output);
             }
 
             var lines = output.Split("\n");
