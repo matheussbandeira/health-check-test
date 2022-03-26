@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 
 namespace HealthTest
 {
@@ -57,7 +58,6 @@ namespace HealthTest
             info.FileName = "/bin/bash";
             info.Arguments = "-c \"free -m\"";
             info.RedirectStandardOutput = true;
-            info.UseShellExecute = false;
 
             using (var process = Process.Start(info))
             {
