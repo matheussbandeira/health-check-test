@@ -56,7 +56,7 @@ namespace HealthTest
 
             var info = new ProcessStartInfo();
             info.FileName = "/bin/bash";
-            info.Arguments = "-c \"free -m\"";
+            info.Arguments = @"-c ""cat /proc/meminfo""";
             info.RedirectStandardOutput = true;
 
             using (var process = Process.Start(info))
@@ -69,9 +69,7 @@ namespace HealthTest
             var memory = lines[1].Split(" ", StringSplitOptions.RemoveEmptyEntries);
 
             var metrics = new MemoryMetrics();
-            metrics.Total = double.Parse(memory[1]);
-            metrics.Used = double.Parse(memory[2]);
-            metrics.Free = double.Parse(memory[3]);
+            metrics.Free = Math.Round(double.Parse(memory[1]) / 1024, 0);
 
             return metrics;
         }
