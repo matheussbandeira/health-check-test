@@ -12,18 +12,12 @@ namespace HealthTest.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
             var client = new HealtCheck();
-            var defaultOs = client.GetMetrics();
+            var defaultOs = await client.GetMetrics();
 
-            string onlyWindows = "";
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                onlyWindows = new SystemDataService().getAvailableRAM();
-            else
-                onlyWindows = "O sistema operacional não é Windows";
-
-            return Ok(new { defaultOs = defaultOs.Free + "MB", onlyWindows = onlyWindows });
+            return Ok(defaultOs);
         }
     }
 }

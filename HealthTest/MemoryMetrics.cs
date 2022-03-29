@@ -2,8 +2,7 @@
 {
     public class MemoryMetrics
     {
-        public double Total;
-        public double Used;
-        public double Free;
+        public string FreeMemory { get; set; }
+        public string FreeCpu { get; set; }
     }
 }
