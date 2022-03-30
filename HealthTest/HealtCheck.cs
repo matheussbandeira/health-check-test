@@ -8,7 +8,7 @@ namespace HealthTest
     public class HealtCheck
     {
         private const string MEMINFO_FILEPATH = "/proc/meminfo";
-        private const string CPUSTAT_FILEPATH = "//tmp//cpuAvailable.txt";
+        private const string CPUSTAT_FILEPATH = "/tmp/cpuAvailable.txt";
         private const string CPUSTAT_CMD = "top -i -bn1 > " + CPUSTAT_FILEPATH;
 
         public async Task<MemoryMetrics> GetMetrics()
