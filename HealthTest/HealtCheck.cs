@@ -79,7 +79,7 @@ namespace HealthTest
             string output = "";
 
             var info = new ProcessStartInfo();
-            info.FileName = "/bin/bash";
+            info.FileName = "bash";
             info.Arguments = "-c \"echo $PATH\"";
             info.RedirectStandardOutput = true;
 
