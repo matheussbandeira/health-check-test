@@ -9,7 +9,7 @@ namespace HealthTest
     {
         private const string MEMINFO_FILEPATH = "/proc/meminfo";
         private const string CPUSTAT_FILEPATH = "/tmp/cpuAvailable.txt";
-        private const string CPUSTAT_CMD = "top -i -bn1 > " + CPUSTAT_FILEPATH;
+        private const string CPUSTAT_CMD = "top -i -bn1 > ";
 
         public async Task<MemoryMetrics> GetMetrics()
         {
@@ -80,7 +80,7 @@ namespace HealthTest
 
             var info = new ProcessStartInfo();
             info.FileName = "bash";
-            info.Arguments = "-c \"echo $PATH\"";
+            info.Arguments = $"-c \"{CPUSTAT_CMD}\"";
             info.RedirectStandardOutput = true;
 
             using (var process = Process.Start(info))
@@ -88,8 +88,6 @@ namespace HealthTest
                 output = process.StandardOutput.ReadToEnd();
                 Console.WriteLine(output);
             }
-
-            Process.Start("/bin/bash", "-c \"" + CPUSTAT_CMD + "\"");
 
             string cpuAvailableLine = await ReadLineStartingWithAsync(CPUSTAT_FILEPATH, "%Cpu(s)");
 
