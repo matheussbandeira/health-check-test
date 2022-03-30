@@ -9,7 +9,7 @@ namespace HealthTest
     {
         private const string MEMINFO_FILEPATH = "/proc/meminfo";
         private const string CPUSTAT_FILEPATH = "/tmp/cpuAvailable.txt";
-        private const string CPUSTAT_CMD = "mpstat 1 1 | tail -1 | awk '{print $12}' > " + CPUSTAT_FILEPATH;
+        private const string CPUSTAT_CMD = "top -i -bn1 > " + CPUSTAT_FILEPATH;
 
         public async Task<MemoryMetrics> GetMetrics()
         {
@@ -90,10 +90,12 @@ namespace HealthTest
                 output = process.StandardOutput.ReadToEnd();
             }
 
-            string cpuAvailableLine = await ReadLineStartingWithAsync(CPUSTAT_FILEPATH, "");
+            string cpuAvailableLine = await ReadLineStartingWithAsync(CPUSTAT_FILEPATH, "%Cpu(s)");
+
+            var parsedCpuAvailable = Regex.Match(cpuAvailableLine.Trim(), @"([\d.]+)\sid", RegexOptions.IgnoreCase).Groups[1].Value + "%";
 
             return new MemoryMetrics {
-                FreeCpu = cpuAvailableLine + "%",
+                FreeCpu = parsedCpuAvailable,
                 FreeMemory = parsedMemAvailable
             };
         }
