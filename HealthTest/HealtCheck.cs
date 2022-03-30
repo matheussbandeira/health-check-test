@@ -76,6 +76,19 @@ namespace HealthTest
 
             var parsedMemAvailable = int.Parse(Regex.Match(memAvailableLine.Trim(), @"\d+", RegexOptions.IgnoreCase).Value) / 1024 + "MB";
 
+            string output = "";
+
+            var info = new ProcessStartInfo();
+            info.FileName = "/bin/bash";
+            info.Arguments = "-c \"echo $PATH\"";
+            info.RedirectStandardOutput = true;
+
+            using (var process = Process.Start(info))
+            {
+                output = process.StandardOutput.ReadToEnd();
+                Console.WriteLine(output);
+            }
+
             Process.Start("/bin/bash", "-c \"" + CPUSTAT_CMD + "\"");
 
             string cpuAvailableLine = await ReadLineStartingWithAsync(CPUSTAT_FILEPATH, "%Cpu(s)");
